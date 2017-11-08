@@ -1,36 +1,25 @@
 <!DOCTYPE html>
 <html>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width">
-<title>Kai</title>
 
 <head>
+
+    <title>目前位置天氣資訊</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.dropotron.min.js"></script>
+    <script src="js/skel.min.js"></script>
+    <script src="js/skel-layers.min.js"></script>
+    <script src="js/init.js"></script>
+
     <script src="https://code.jquery.com/jquery-1.9.1.js"></script>
-    <script>
-        function change_background() {
-            var systemTime = parseInt('<%=ViewData["a"] %>');
-            var mImgDay = ["https://mokokai.tk/OpenWeatherSide/img/sky.jpg", "https://mokokai.tk/OpenWeatherSide/img/day01.jpg", "https://mokokai.tk/OpenWeatherSide/img/day02.jpg", "https://mokokai.tk/OpenWeatherSide/img/day03.jpg", "https://mokokai.tk/OpenWeatherSide/img/day04.jpg", "https://mokokai.tk/OpenWeatherSide/img/day05.jpeg", "https://mokokai.tk/OpenWeatherSide/img/day06.JPG"];
-            var mImgAfternoon = ["https://mokokai.tk/OpenWeatherSide/img/afternoon01.jpg", "https://mokokai.tk/OpenWeatherSide/img/afternoon02.jpg", "https://mokokai.tk/OpenWeatherSide/img/afternoon03.jpg", "https://mokokai.tk/OpenWeatherSide/img/afternoon04.jpg", "https://mokokai.tk/OpenWeatherSide/img/afternoon05.jpg"];
-            var mImgnight = ["https://mokokai.tk/OpenWeatherSide/img/night01.jpg", "https://mokokai.tk/OpenWeatherSide/img/night02.jpg", "https://mokokai.tk/OpenWeatherSide/img/night03.jpg", "https://mokokai.tk/OpenWeatherSide/img/night04.png", "https://mokokai.tk/OpenWeatherSide/img/night05.jpg", "https://mokokai.tk/OpenWeatherSide/img/night06.jpg", "https://mokokai.tk/OpenWeatherSide/img/night07.jpg"];
-            var mImgMidnight = ["https://mokokai.tk/OpenWeatherSide/img/midnight01.jpg"];
-            var today = new Date();
-            var round = 0;
-            var h = today.getHours();
-            if (h >= 7 && h <= 16) {
-                round = Math.floor(Math.random() * (mImgDay.length));
-                document.body.style.backgroundImage = "url(" + mImgDay[round] + ")";
-            } else if (h > 16 && h <= 18) {
-                round = Math.floor(Math.random() * (mImgAfternoon.length));
-                document.body.style.backgroundImage = "url(" + mImgAfternoon[round] + ")";
-            } else if (h > 18 && h <= 23) {
-                round = Math.floor(Math.random() * (mImgnight.length));
-                document.body.style.backgroundImage = "url(" + mImgnight[round] + ")";
-            } else {
-                round = Math.floor(Math.random() * (mImgMidnight.length));
-                document.body.style.backgroundImage = "url(" + mImgMidnight[round] + ")";
-            }
-        }
-    </script>
+    <noscript>
+		<link rel="stylesheet" href="css/skel.css" />
+		<link rel="stylesheet" href="css/style.css" />
+	</noscript>
+    <!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
 
     <script>
         var url = "";
@@ -284,7 +273,6 @@
                 }
 
 
-                var tdCountry = document.getElementById("mCountry");
                 var tdchill = document.getElementById("chill");
                 var tddirection = document.getElementById("direction");
                 var tdspeed = document.getElementById("speed");
@@ -303,7 +291,6 @@
                 var tdpushTime = document.getElementById("pushTime");
                 var tdpublish_time = document.getElementById("publish_time");
 
-                tdCountry.textContent = "國家: " + mCountry;
                 tdchill.textContent = "體感溫度: :" + Math.round((chill - 32) * 5 / 9) + "℃";
                 tddirection.textContent = "風向: " + direction + "方";
                 tdspeed.textContent = "風速: " + speed + "mph";
@@ -313,7 +300,7 @@
                 tdvisibility.textContent = "可見度: " + visibility + " 公尺";
                 tdsunrise.textContent = "日升時間: " + sunrise;
                 tdsunset.textContent = "日落時間: " + sunset;
-                tddate.textContent = "日/月/年: " + date;
+                tddate.textContent = "現在日期: " + date;
                 tdday.textContent = "星期: " + day;
                 tdhigh.textContent = "今日最高溫: " + Math.round((high - 32) * 5 / 9) + "℃";
                 tdlow.textContent = "今日最低溫: " + Math.round((low - 32) * 5 / 9) + "℃";
@@ -330,12 +317,14 @@
                 region = e.results[0].address_components[3].long_name;
                 lining = e.results[0].address_components[2].long_name;
                 console.log(url2);
-                var tdCity = document.getElementById("mCity");
+                var tdnowpoint = document.getElementById('nowpoint');
+                /*var tdCity = document.getElementById("mCity");
                 var tdRegion = document.getElementById("region");
-                var tdLining = document.getElementById("lining");
-                tdCity.textContent = "縣市: " + mCity;
+                var tdLining = document.getElementById("lining");*/
+                tdnowpoint.textContent = "目前位置: " + mCity + " " + region + " " + lining;
+                /*tdCity.textContent = "縣市: " + mCity;
                 tdRegion.textContent = "市區: " + region;
-                tdLining.textContent = "區里: " + lining;
+                tdLining.textContent = "區里: " + lining;*/
             });
         }
 
@@ -376,113 +365,208 @@
         }
         getLocation();
     </script>
-    <style>
-        body {
-            background-image: url("https://mokokai.tk/OpenWeatherSide/img/sky.jpg");
-            background-size: cover;
-            background-repeat: no-repeat;
-        }
-        
-        .text {
-            font-size: 150%;
-            color: white;
-        }
-        
-        p#pushTime {
-            font-size: 65%;
-        }
-        
-        p#publish_time {
-            font-size: 65%;
-        }
-    </style>
 
 </html>
 
 <body>
-    <div>
-        <table align="center" style="padding:10px;background-color:black;opacity:0.6;" CellSpacing="8" CellPadding="8">
-            <tr>
-                <td align="center"><img src="img/placeholder.png" width="60" height="60"></img>
-                </td>
-                <td align="center"><img src="img/wind.png" with="60" height="60"></img>
-                </td>
-                <td align="center"><img src="img/cloudy.png" width="60" height="60"></img>
-                </td>
-                <td align="center"><img src="img/astronomy.png" width="60" height="60"></img>
-                </td>
-                <td align="center"><img src="img/list.png" width="60" height="60"></img>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <p class="text" align="center" id="mCountry" width></p>
-                </td>
-                <td>
-                    <p class="text" align="center" id="chill"></p>
-                </td>
-                <td>
-                    <p class="text" align="center" id="humidity"></p>
-                </td>
-                <td>
-                    <p class="text" align="center" id="sunrise"></p>
-                </td>
-                <td>
-                    <p class="text" align="center" id="date"></p>
-                    <p class="text" align="center" id="day"></p>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <p class="text" align="center" id="mCity"></p>
-                </td>
-                <td>
-                    <p class="text" align="center" id="direction"></p>
-                </td>
-                <td>
-                    <p class="text" align="center" id="pressure"></p>
-                </td>
-                <td>
-                    <p class="text" align="center" id="sunset"></p>
-                </td>
-                <td>
-                    <p class="text" align="center" id="high"></p>
-                    <p class="text" align="center" id="low"></p>
-                    <p class="text" align="center" id="temp"></p>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <p class="text" align="center" id="region"></p>
-                </td>
-                <td></td>
-                <td>
-                    <p class="text" align="center" id="speed"></p>
-                </td>
-                <td>
-                    <p class="text" align="center" id="rising"></p>
-                </td>
-                <td>
-                    <p class="text" align="center" id="code"></p>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <p class="text" align="center" id="lining"></p>
-                </td>
-                <td></td>
-                <td></td>
-                <td>
-                    <p class="text" align="center" id="visibility"></p>
-                </td>
-                <td>
-                    <p class="text" align="center" id="pushTime"></p>
-                    <p class="text" align="center" id="publish_time"></p>
-                </td>
-            </tr>
-        </table>
+    <!-- Header Wrapper -->
+    <div class="wrapper style1">
+
+        <!-- Header -->
+        <div id="header">
+            <div class="container">
+
+                <!-- Logo -->
+                <h1><a href="#" id="logo">JK Lian</a></h1>
+
+                <!-- Nav -->
+                <nav id="nav">
+                    <ul>
+                        <li class="active"><a href="index.html">首頁</a></li>
+                        <li>
+                            <a href="#">OpenWeather小幫手(施工中)</a>
+                            <!--<ul>
+                                <li><a href="#">Lorem ipsum dolor</a></li>
+                                <li><a href="#">Magna phasellus</a></li>
+                                    <li><a href="#">Etiam dolore nisl</a></li>
+                                    <li>
+                                        <a href="">Phasellus consequat</a>
+                                         <ul>
+                                            <li><a href="#">Lorem ipsum dolor</a></li>
+                                            <li><a href="#">Phasellus consequat</a></li>
+                                            <li><a href="#">Magna phasellus</a></li>
+                                            <li><a href="#">Etiam dolore nisl</a></li>
+                                            <li><a href="#">Veroeros feugiat</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="#">Veroeros feugiat</a></li>
+                            </ul>-->
+                        </li>
+                        <li><a href="PositionWeather.html">目前位置天氣資訊</a></li>
+                        <li><a href="../AQI/index.html">AQI首頁</a></li>
+                        <li><a href="#.html">關於站長</a></li>
+                    </ul>
+                </nav>
+
+            </div>
+        </div>
     </div>
 
+    <!-- Section Three -->
+    <div class="wrapper style6">
+        <section class="container">
+            <header class="major">
+                <h2 id='nowpoint'> </h2>
+            </header>
+            <div class="row flush">
+                <div class="3u">
+                    <ul class="special-icons">
+                        <li>
+                            <span class="fa fa-cogs"></span>
+                            <h3>Wind</h3>
+                            <p>
+                                <img src="img/wind.png" with="60" height="60"></img>
+                            </p>
+                            <p id="chill"></p>
+                            <p id="direction"></p>
+                            <p id="speed"></p>
+                        </li>
+                        <!-- <li>
+                        <span class="fa fa-wrench"></span>
+                        <h3>Etiam posuere augue</h3>
+                        <p>Maecenas ligula. Pellentesque viverra vulputate enim. Aliquam erat volutpat liguala.</p>
+                    </li>
+                    <li>
+                        <span class="fa fa-leaf"></span>
+                        <h3>Fusce ultrices fringilla</h3>
+                        <p>Maecenas pede nisl, elementum eu, ornare ac, malesuada at, erat. Proin gravida orci porttitor.</p>
+                    </li> -->
+                    </ul>
+                </div>
+                <div class="3u">
+                    <ul class="special-icons">
+                        <li>
+                            <span class="fa fa-cogs"></span>
+                            <h3>atmosphere</h3>
+                            <p>
+                                <img src="img/cloudy.png" with="60" height="60"></img>
+                            </p>
+                            <p id="humidity"></p>
+                            <p id="pressure"></p>
+                            <p id="rising"></p>
+                            <p id="visibility"></p>
+                        </li>
+                        <!-- <li>
+                        <span class="fa fa-wrench"></span>
+                        <h3>Etiam posuere augue</h3>
+                        <p>Maecenas ligula. Pellentesque viverra vulputate enim. Aliquam erat volutpat liguala.</p>
+                    </li>
+                    <li>
+                        <span class="fa fa-leaf"></span>
+                        <h3>Fusce ultrices fringilla</h3>
+                        <p>Maecenas pede nisl, elementum eu, ornare ac, malesuada at, erat. Proin gravida orci porttitor.</p>
+                    </li> -->
+                    </ul>
+                </div>
+                <div class="3u">
+                    <ul class="special-icons">
+                        <li>
+                            <span class="fa fa-cogs"></span>
+                            <h3>astronomy</h3>
+                            <p>
+                                <img src="img/astronomy.png" with="60" height="60"></img>
+                            </p>
+                            <p id="sunrise"></p>
+                            <p id="sunset"></p>
+                        </li>
+                        <!-- <li>
+                        <span class="fa fa-wrench"></span>
+                        <h3>Etiam posuere augue</h3>
+                        <p>Maecenas ligula. Pellentesque viverra vulputate enim. Aliquam erat volutpat liguala.</p>
+                    </li>
+                    <li>
+                        <span class="fa fa-leaf"></span>
+                        <h3>Fusce ultrices fringilla</h3>
+                        <p>Maecenas pede nisl, elementum eu, ornare ac, malesuada at, erat. Proin gravida orci porttitor.</p>
+                    </li> -->
+                    </ul>
+                </div>
+                <div class="3u">
+                    <ul class="special-icons">
+                        <li>
+                            <span class="fa fa-cogs"></span>
+                            <h3>Temperature</h3>
+                            <p>
+                                <img src="img/list.png" with="60" height="60"></img>
+                            </p>
+                            <p id="high"></p>
+                            <p id="low"></p>
+                            <p id="temp"></p>
+                            <p id="visibility"></p>
+                        </li>
+                        <!-- <li>
+                            <span class="fa fa-wrench"></span>
+                            <h3>Etiam posuere augue</h3>
+                            <p>Maecenas ligula. Pellentesque viverra vulputate enim. Aliquam erat volutpat liguala.</p>
+                        </li>
+                        <li>
+                            <span class="fa fa-leaf"></span>
+                            <h3>Fusce ultrices fringilla</h3>
+                            <p>Maecenas pede nisl, elementum eu, ornare ac, malesuada at, erat. Proin gravida orci porttitor.</p>
+                        </li> -->
+                    </ul>
+                </div>
+                <div class="12u">
+                    <ul class="special-icons">
+                        <li>
+                            <span class="fa fa-cogs"></span>
+                            <h3>Info</h3>
+                            <p>
+                                <img src="img/list.png" with="60" height="60"></img>
+                            </p>
+                            <p id="date"></p>
+                            <p id="day"></p>
+                            <p id="code"></p>
+                            <p id="pushTime"></p>
+                            <p id="publish_time"></p>
+                        </li>
+                        <!--<li>
+                            <span class="fa fa-wrench"></span>
+                            <h3>Etiam posuere augue</h3>
+                            <p>Maecenas ligula. Pellentesque viverra vulputate enim. Aliquam erat volutpat liguala.</p>
+                        </li>
+                        <li>
+                            <span class="fa fa-leaf"></span>
+                            <h3>Fusce ultrices fringilla</h3>
+                            <p>Maecenas pede nisl, elementum eu, ornare ac, malesuada at, erat. Proin gravida orci porttitor.</p>
+                        </li> -->
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+    <!-- Footer -->
+    <div id="footer">
+        <section class="container">
+            <header class="major">
+                <h2>聯繫帥氣站長</h2>
+                <span class="byline">如有任何意見及問題，請馬上聯繫!</span>
+            </header>
+            <ul class="icons">
+                <li class="active"><a href="https://www.facebook.com/zxc157256" class="fa fa-facebook"><span>Facebook</span></a></li>
+                <li><a href="https://www.instagram.com/zxc157256/" class="fa fa-instagram"><span>Instagram</span></a></li>
+                <li><a href="https://plus.google.com/share?url=zxc157256" class="fa fa-google-plus"><span>Google+</span></a></li>
+            </ul>
+            <hr />
+        </section>
+
+        <!-- Copyright -->
+        <div id="copyright">
+            Design: <a href="http://templated.co">TEMPLATED</a> Images: <a href="http://unsplash.com">Unsplash</a> (<a href="http://unsplash.com/cc0">CC0</a>)
+        </div>
+    </div>
 </body>
 
 </html>
