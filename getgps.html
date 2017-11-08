@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Kai</title>
+</head>
+<script>
+    //定義變數
+    var xlatitude;
+    var xlongitude;
+
+    //抓GPS位置
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition, showError);
+        } else {
+            console.log("Geolocation is not supported by this browser.");
+        }
+    }
+
+    //顯示GPS位置
+    function showPosition(position) {
+        xlatitude = position.coords.latitude;
+        xlongitude = position.coords.longitude;
+        document.getElementById('gps').innerHTML = "Latitude: " + xlatitude + "</br>Longitude: " + xlongitude;
+    }
+
+    //顯示錯誤
+    function showError(error) {
+        switch (error.code) {
+            case error.PERMISSION_DENIED:
+                alert("請不要拒絕取得位置的權限.");
+                break;
+            case error.POSITION_UNAVAILABLE:
+                alert.log("搜尋不到GPS信號.");
+                break;
+            case error.TIMEOUT:
+                alert.log("GPS訊號搜尋超時.");
+                break;
+            case error.UNKNOWN_ERROR:
+                alert.log("未知錯誤發生.");
+                break;
+        }
+    }
+    getLocation();
+</script>
+
+<body>
+    <div id='gps'></div>
+</body>
+
+</html>

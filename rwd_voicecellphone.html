@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>OpenWeater</title>
+    <!-- Bootstrap(響應式)) -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/weather-icons.css">
+    <link rel="stylesheet" href="css/weather-icons-wind.css">
+    <link rel="shortcut icon" sizes="16x16 32x32  64x64 128x128" href="http://mokokai.tk/OpenWeatherSide/img/sunset.ico">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://mokokai.tk/OpenWeatherSide/js/mystyle.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="https://webduino.io/components/webduino-js/dist/webduino-all.min.js"></script>
+    <script src="https://blockly.webduino.io/webduino-blockly.js"></script>
+    <script src="https://blockly.webduino.io/lib/firebase.js"></script>
+    <script src="https://blockly.webduino.io/lib/runtime.min.js"></script>
+    <script src="https://mokokai.tk/OpenWeatherSide/js/getdata.js"></script>
+    <script src="https://mokokai.tk/OpenWeatherSide/js/getdata2.js"></script>
+    <script src="https://mokokai.tk/OpenWeatherSide/js/changeBackground.js"></script>
+    <script src="https://mokokai.tk/OpenWeatherSide/js/startspeech.js"></script>
+    <script src="https://mokokai.tk/OpenWeatherSide/js/getlocation.js"></script>
+    <script src="https://mokokai.tk/OpenWeatherSide/js/speechRecognition.js"></script>
+    <script src="https://mokokai.tk/OpenWeatherSide/js/getphotocell.js"></script>
+    <script src="https://mokokai.tk/OpenWeatherSide/js/get_ult_dht.js"></script>
+    <script>
+        var url = "";
+        var url2 = "";
+        //語音辨識用
+        var city = {
+            1: "基隆",
+            2: "台北",
+            3: "新北",
+            4: "桃園",
+            5: "新竹",
+            6: "苗栗",
+            7: "台中",
+            8: "南投",
+            9: "彰化",
+            10: "雲林",
+            11: "嘉義",
+            12: "台南",
+            13: "高雄",
+            14: "屏東",
+            15: "Taitung",
+            16: "花蓮",
+            17: "宜蘭",
+            18: "金門",
+            19: '澎湖',
+            20: "連江"
+        };
+        //抓資料需要用經緯度
+        var citygps = {
+            1: '25.1240262,121.6470147',
+            2: '25.0169639,121.2261862',
+            3: '24.9861571,121.3645577',
+            4: '24.8545491,120.9519978',
+            5: '24.6866905,120.892014',
+            6: '24.5147969,120.8026139',
+            7: '24.2198468,120.6756823',
+            8: '23.8405937,120.7023261',
+            9: '23.9919519,120.3300822',
+            10: '23.6735484,120.294506',
+            11: '23.4251135,120.257353',
+            12: '23.1226791,120.106233',
+            13: '22.6995937,120.1910021',
+            14: '22.3895348,120.0680055',
+            15: '22.7213708,120.6096737',
+            16: '23.7330573,120.8184708',
+            17: '24.648688,121.3611287',
+            18: '24.4458333,118.3739224',
+            19: '23.629355,119.4569846',
+            20: '26.1564702,119.9239349'
+        };
+        //Location
+        var mCountry;
+        var mCity;
+        var mCity2;
+        var region;
+        var lining;
+        //wind
+        var chill;
+        var direction;
+        var speed;
+        //Atmosphere
+        var humidity;
+        var pressure;
+        var rising;
+        var visibility;
+        //Astronomy
+        var sunrise;
+        var sunset;
+        //Condition
+        var date;
+        var day;
+        var high;
+        var low;
+        var temp;
+        var code;
+        var pushTime;
+        var publish_time;
+        //GPS
+        var xlatitude = 22.9039507;
+        var xlongitude = 120.2725007;
+        //光感數值
+        var photocell;
+        var det = 0,
+            detstate = false,
+            abs = 0;
+        var pcount = 0;
+        var pstate = true;
+        //超音波
+        var ultrasonic;
+        var udcount = false;
+        //溫溼度
+        var dht;
+        var dhtstate = false;
+        //gps狀態
+        var gpsnofind = true;
+        //辨識狀態
+        var alreadyspeech = true;
+        var alreadyspeech2 = true;
+        getLocation(); //先取得所在地天氣資訊以便於判斷溫溼度差距
+
+        boardReady({
+            device: 'WGEE'
+        }, function(board) {
+            board.systemReset(); //初始化開發版
+            board.samplingInterval = 1000; //每1秒執行一次
+            photocell = getPhotocell(board, 3); //設定光感在A3數位ping
+            ultrasonic = getUltrasonic(board, 11, 9); //設定超音波在11&9
+            dht = getDht(board, 7); //設定溫濕度在7
+
+            getphotocell(); //取得光感
+            get_ult_dht(); //取得超音波與溫溼度
+        })
+    </script>
+</head>
+
+<body onload="change_background();">
+    <!-- 項目列表開始 -->
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <!--<h2 style="display:none">RWD made by 4xsc</h2>-->
+                <!--<h2>RWD made by 4xsc</h2>-->
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6 col-sm-3">
+                <div class="thumbnail text-center" style="padding:10px;background-color:black;opacity:0.6;" CellSpacing="8" CellPadding="8">
+                    <img alt="" src="img/placeholder.png" width="60" height="60" />
+                    <div class="caption">
+                        <p class="text" align="center" id="mCountry"></p>
+                        <p class="text" align="center" id="mCity"></p>
+                        <p class="text" align="center" id="region"></p>
+                        <p class="text" align="center" id="lining"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6 col-sm-3">
+                <div class="thumbnail text-center" style="padding:10px;background-color:black;opacity:0.6;" CellSpacing="8" CellPadding="8">
+                    <img alt="" src="img/cloudy.png" width="60" height="60" />
+                    <div class="caption">
+                        <p class="text" align="center" id="humidity"></p>
+                        <p class="text" align="center" id="pressure"></p>
+                        <p class="text" align="center" id="rising"></p>
+                        <p class="text" align="center" id="visibility"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6 col-sm-3">
+                <div class="thumbnail text-center" style="padding:10px;background-color:black;opacity:0.6;" CellSpacing="8" CellPadding="8">
+                    <img alt="" src="img/astronomy.png" width="60" height="60" />
+                    <div class="caption">
+                        <p class="text" align="center" id="sunrise"></p>
+                        <p class="text" align="center" id="sunset"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6 col-sm-3">
+                <div class="thumbnail text-center" style="padding:10px;background-color:black;opacity:0.6;" CellSpacing="8" CellPadding="8">
+                    <img alt="" src="img/wind.png" with="60" height="60" />
+                    <div class="caption">
+                        <p class="text" align="center" id="direction"></p>
+                        <p class="text" align="center" id="speed"></p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-xs-12">
+                <div class="thumbnail text-center" style="padding:10px;background-color:black;opacity:0.6;" CellSpacing="8" CellPadding="8">
+                    <img alt="" src="img/list.png" width="60" height="60" />
+                    <div class="caption">
+                        <p class="text" align="center" id="date"></p>
+                        <p class="text" align="center" id="day"></p>
+                        <p class="text" align="center" id="high"></p>
+                        <p class="text" align="center" id="low"></p>
+                        <p class="text" align="center" id="temp"></p>
+                        <p class="text" align="center" id="chill"></p>
+                        <p class="text" align="center" id="code"></p>
+                        <p class="text" align="center" id="pushTime"></p>
+                        <p class="text" align="center" id="publish_time"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 項目列表結束 -->
+    <center>
+</body>
+
+</html>
