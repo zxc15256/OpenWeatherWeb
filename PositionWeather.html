@@ -313,7 +313,7 @@
 
         function getdata2() {
             $.get(url2, function(e) {
-                mCity = e.results[0].address_components[4].long_name;
+                mCity2 = e.results[0].address_components[4].long_name;
                 region = e.results[0].address_components[3].long_name;
                 lining = e.results[0].address_components[2].long_name;
                 console.log(url2);
@@ -321,7 +321,7 @@
                 /*var tdCity = document.getElementById("mCity");
                 var tdRegion = document.getElementById("region");
                 var tdLining = document.getElementById("lining");*/
-                tdnowpoint.textContent = "目前位置: " + mCity + " " + region + " " + lining;
+                tdnowpoint.textContent = "目前位置: " + mCity2 + " " + region + " " + lining;
                 /*tdCity.textContent = "縣市: " + mCity;
                 tdRegion.textContent = "市區: " + region;
                 tdLining.textContent = "區里: " + lining;*/
@@ -385,25 +385,31 @@
                         <li class="active"><a href="index.html">首頁</a></li>
                         <li>
                             <a href="#">OpenWeather小幫手(施工中)</a>
-                            <!--<ul>
-                                <li><a href="#">Lorem ipsum dolor</a></li>
-                                <li><a href="#">Magna phasellus</a></li>
-                                    <li><a href="#">Etiam dolore nisl</a></li>
-                                    <li>
-                                        <a href="">Phasellus consequat</a>
-                                         <ul>
-                                            <li><a href="#">Lorem ipsum dolor</a></li>
-                                            <li><a href="#">Phasellus consequat</a></li>
-                                            <li><a href="#">Magna phasellus</a></li>
-                                            <li><a href="#">Etiam dolore nisl</a></li>
-                                            <li><a href="#">Veroeros feugiat</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="#">Veroeros feugiat</a></li>
-                            </ul>-->
+                            <ul>
+                                <li><a href="OpenWeatherPC.html">電腦版</a></li>
+                                <li><a href="OpenWeatherMobile.html">手機板</a></li>
+                                <!-- <li><a href="#">Etiam dolore nisl</a></li>
+                                <li>
+                                    <a href="">Phasellus consequat</a>
+                                    <ul>
+                                        <li><a href="#">Lorem ipsum dolor</a></li>
+                                        <li><a href="#">Phasellus consequat</a></li>
+                                        <li><a href="#">Magna phasellus</a></li>
+                                        <li><a href="#">Etiam dolore nisl</a></li>
+                                        <li><a href="#">Veroeros feugiat</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#">Veroeros feugiat</a></li> -->
+                            </ul>
                         </li>
                         <li><a href="PositionWeather.html">目前位置天氣資訊</a></li>
-                        <li><a href="../AQI/index.html">AQI首頁</a></li>
+                        <li>
+                            <a href="#">AQI(施工中)</a>
+                            <ul>
+                                <li><a href="../AQI/index.html">AQI首頁</a></li>
+                                <li><a href="buttonLED.html">AQI_LED裝置(施工中)</a></li>
+                            </ul>
+                        </li>
                         <li><a href="#.html">關於站長</a></li>
                     </ul>
                 </nav>
@@ -456,16 +462,16 @@
                             <p id="rising"></p>
                             <p id="visibility"></p>
                         </li>
-                        <!-- <li>
-                        <span class="fa fa-wrench"></span>
-                        <h3>Etiam posuere augue</h3>
-                        <p>Maecenas ligula. Pellentesque viverra vulputate enim. Aliquam erat volutpat liguala.</p>
-                    </li>
-                    <li>
-                        <span class="fa fa-leaf"></span>
-                        <h3>Fusce ultrices fringilla</h3>
-                        <p>Maecenas pede nisl, elementum eu, ornare ac, malesuada at, erat. Proin gravida orci porttitor.</p>
-                    </li> -->
+                        <!--<li>
+                            <span class="fa fa-wrench"></span>
+                            <h3>Etiam posuere augue</h3>
+                            <p>Maecenas ligula. Pellentesque viverra vulputate enim. Aliquam erat volutpat liguala.</p>
+                        </li>
+                        <li>
+                            <span class="fa fa-leaf"></span>
+                            <h3>Fusce ultrices fringilla</h3>
+                            <p>Maecenas pede nisl, elementum eu, ornare ac, malesuada at, erat. Proin gravida orci porttitor.</p>
+                        </li> -->
                     </ul>
                 </div>
                 <div class="3u">
